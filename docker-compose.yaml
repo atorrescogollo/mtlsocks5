@@ -1,0 +1,51 @@
+services:
+  #wireshark:
+  #  image: lscr.io/linuxserver/wireshark:latest
+  #  container_name: wireshark
+  #  network_mode: host
+  #  cap_add:
+  #    - NET_ADMIN
+  #  security_opt:
+  #    - seccomp:unconfined #optional
+  #  environment:
+  #    - PUID=1000
+  #    - PGID=1000
+  #    - TZ=Etc/UTC
+  #  restart: unless-stopped
+  client:
+    image: curlimages/curl
+    entrypoint: sh -xc "while :; do sleep 10; done"
+    networks:
+      - local
+  forwarder:
+    build: .
+    command:
+      - forwarder
+      - -s
+      - server:1080
+    ports:
+      - "1080:1080"
+    networks:
+      - local
+      - public
+    volumes:
+      - ./ssllogs:/tmp/ssllogs
+      - ./certs:/certs:ro
+  server:
+    build: .
+    command:
+      - server
+    networks:
+      - public
+      - private
+    volumes:
+      - ./certs:/certs:ro
+  web:
+    image: nginx:alpine
+    networks:
+      - private
+
+networks:
+  local:
+  public:
+  private:
