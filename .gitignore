@@ -22,3 +22,7 @@ go.work
 
 certs/
 ssllogs/
+
+# Output binaries
+dist/
+main
