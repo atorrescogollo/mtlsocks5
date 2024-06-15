@@ -2,7 +2,7 @@ module github.com/atorrescogollo/mtlsocks5
 
 go 1.22.2
 
-require github.com/spf13/cobra v1.8.0
+require github.com/spf13/cobra v1.8.1
 
 require (
 	go4.org/mem v0.0.0-20220726221520-4f986261bf13 // indirect
